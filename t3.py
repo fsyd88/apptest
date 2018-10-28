@@ -13,10 +13,10 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 mnist = input_data.read_data_sets('mnist/data/', one_hot=True, dtype=np.uint8)
 
-# imgs, _ = mnist.test.next_batch(10)
+imgs, _ = mnist.train.next_batch(10)
 
 # i = 0
-# for img in imgs:
+# for img in imgs: 
 #     i += 1
 #     Image.fromarray(img.reshape(28, 28)).save(("images/{0}.jpg".format(i)))
 

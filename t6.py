@@ -4,10 +4,10 @@ from mynn import single
 
 import numpy as np
 
-# mnist = input_data.read_data_sets('data/', one_hot=True)
+mnist = input_data.read_data_sets('data/', one_hot=True)
 
 nn = single.Nn(28*28, 10)
-
+mnist.train.next_batch(50)
 # 训练
 # nn.ready()
 # for i in range(2000):
