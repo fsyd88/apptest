@@ -2,9 +2,9 @@
 
 error_reporting(E_ALL ^ E_NOTICE);
 
-$safe_codetype=3;
-$safe_wwidth=68;
-$safe_wheight=24;
+$safe_codetype=1;
+$safe_wwidth=28;
+$safe_wheight=28;
 
 $config = array(
     'font_size' => 14,
@@ -14,11 +14,11 @@ $config = array(
     'use_boder' => TRUE,
     'font_file' => dirname(__FILE__) . '/data/fonts/' . mt_rand(1, 3) . '.ttf',
     'wordlist_file' => dirname(__FILE__) . '/data/words/words.txt',
-	'save_path'=>'E:\app\tensorflow\apptest\dede\tt/',
-	'code_len'=>4,
+	'save_path'=>'E:\app\tensorflow\apptest\dede\img/',
+	'code_len'=>1,
     'filter_type' => 5);
 
-for($i=0;$i<10;$i++){
+for($i=0;$i<50;$i++){
     echo_validate_image($config);
 }
 
