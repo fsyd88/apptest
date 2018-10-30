@@ -16,11 +16,11 @@ np.set_printoptions(threshold=np.inf)
 
 
 # batch大小，每处理128个样本进行一次梯度更新
-batch_size = 50
+batch_size = 100
 # 类别数
-num_classes = 10
+num_classes = 40
 # 迭代次数
-epochs = 10
+epochs = 2
 
 
 def read_files(pathname):
@@ -29,25 +29,22 @@ def read_files(pathname):
     y = []
     for filename in dir:
         img = Image.open(filename).convert('L')
-        img = img.point(lambda x: [1, 0][x > 150], '1')
+        #img = img.point(lambda x: [1, 0][x > 150], '1')
         #img.show()#;exit()
         x.append(np.array(img))
-        print(np.array(img));exit()
-        y.append(filename[9:10])
+        y.append(list(filename[9:13]))
     x = np.array(x)
     y = np.array(y)
     return x, y
 
-
 # 读取文件
-dir = glob.glob('dede/img/*.png')
-
 x_train, y_train = read_files('dede/img/*.png')
 x_test, y_test = read_files('dede/tst/*.png')
 
-print(x_test);exit()
-x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)
-x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)
+# print(x_train.shape);exit()
+
+x_train = x_train.reshape(x_train.shape[0], 24, 68, 1)
+x_test = x_test.reshape(x_test.shape[0], 24, 68, 1)
 
 x_train = x_train.astype('float32')
 x_test = x_test.astype('float32')
@@ -55,27 +52,9 @@ x_test = x_test.astype('float32')
 x_train /= 255.0
 x_test /= 255.0
 
-
+# 转为one_hot 数据
 y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
-
-# (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-
-# print(x_test[0])
-
-# with np.load('data/mnist.npz') as f:
-#     x_train, y_train = f['x_train'], f['y_train']
-#     x_test, y_test = f['x_test'], f['y_test']
-
-#     print(x_test.shape,y_train.shape)
-
-# # datagen = keras.preprocessing.image.ImageDataGenerator()
-# # img = Image.open('data/1.jpg')
-# # data = np.array(img)
-# # data = data[np.newaxis, :, :, np.newaxis]
-# # for x_batch in datagen.flow(data,batch_size=32):
-# #     print(x_batch)
-
 
 # 构建模型
 model = Sequential()
@@ -86,7 +65,7 @@ model = Sequential()
 # 第一层必须包含输入数据规模input_shape这一参数，后续层不必包含
 model.add(Conv2D(32, kernel_size=(3, 3),
                  activation='relu',
-                 input_shape=(28, 28, 1)))
+                 input_shape=(24, 68, 1)))
 # 再加一层卷积，64个卷积核
 model.add(Conv2D(64, (3, 3), activation='relu'))
 # 加最大值池化
