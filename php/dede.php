@@ -14,11 +14,19 @@ $config = array(
     'use_boder' => TRUE,
     'font_file' => dirname(__FILE__) . '/data/fonts/' . mt_rand(1, 3) . '.ttf',
     'wordlist_file' => dirname(__FILE__) . '/data/words/words.txt',
+<<<<<<< HEAD
 	'save_path'=>'E:\app\apptest\dede\tt/',
 	'code_len'=>1,
     'filter_type' => 5);
 
 for($i=0;$i<200;$i++){
+=======
+	'save_path'=>'E:\app\tensorflow\apptest\dede\img/',
+	'code_len'=>1,
+    'filter_type' => 5);
+
+for($i=0;$i<50;$i++){
+>>>>>>> 6d826b9bf29bf7193bc25a4524f59dd7bde011c5
     echo_validate_image($config);
 }
 

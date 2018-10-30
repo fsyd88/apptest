@@ -1,20 +1,16 @@
-from PIL import Image
 import numpy as np
-import tensorflow as tf
-import glob
 
+a = np.arange(784)  # ->(784,)
+# a = np.arange(784).reshape(28, 28)  # ->(28, 28)
 
-# # # dir = glob.glob('dede/tt/*.png')
+# a = a[np.newaxis, :, :, np.newaxis]  # ->(1, 28, 28, 1)
 
-# # # for f in dir:
-# # #     img = Image.open(f).convert('L')
-# # #     img = img.point(lambda x: [1, 0][x > 150], '1')
-# # #     img.save(f.replace('dede/tt','dede/tt/2'))
+# #a=a.ravel()  # -> (784,)
+# a=a.flatten() # ->(784,)
 
-# # img=Image.open('dede/tt/2/CWMX_5bd54bf6af6df.png').convert('L')
-# # im=np.array(img)/255.0
-# # #img.show()
+a.resize(28,28)
 
+<<<<<<< HEAD
 # # np.set_printoptions(threshold=np.inf)
 # # print(im)
 
@@ -82,3 +78,6 @@ for x in range(200):
 #     print('aaa')
 # else:
 #     print('no')
+=======
+print(a.shape)
+>>>>>>> 6d826b9bf29bf7193bc25a4524f59dd7bde011c5
