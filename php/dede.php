@@ -18,7 +18,7 @@ $config = array(
 	'code_len'=>1,
     'filter_type' => 5);
 
-for($i=0;$i<50;$i++){
+for($i=0;$i<2000;$i++){
     echo_validate_image($config);
 }
 

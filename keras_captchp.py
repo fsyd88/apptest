@@ -16,11 +16,11 @@ np.set_printoptions(threshold=np.inf)
 
 
 # batch大小，每处理128个样本进行一次梯度更新
-batch_size = 50
+batch_size = 128
 # 类别数
 num_classes = 10
 # 迭代次数
-epochs = 10
+epochs = 2
 
 
 def read_files(pathname):
@@ -29,10 +29,8 @@ def read_files(pathname):
     y = []
     for filename in dir:
         img = Image.open(filename).convert('L')
-        img = img.point(lambda x: [1, 0][x > 150], '1')
-        #img.show()#;exit()
+        #img = img.point(lambda x: [1, 0][x > 150], 'P')
         x.append(np.array(img))
-        print(np.array(img));exit()
         y.append(filename[9:10])
     x = np.array(x)
     y = np.array(y)
@@ -45,7 +43,6 @@ dir = glob.glob('dede/img/*.png')
 x_train, y_train = read_files('dede/img/*.png')
 x_test, y_test = read_files('dede/tst/*.png')
 
-print(x_test);exit()
 x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)
 x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)
 
@@ -121,3 +118,4 @@ score = model.evaluate(x_test, y_test, verbose=1)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
 print(model.predict_classes(x_test))
+print(np.argmax(y_test))
