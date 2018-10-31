@@ -12,16 +12,19 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
+from mynn import reader
+
+word2vec=reader.WordVec(1)
+
 np.set_printoptions(threshold=np.inf)
 
 
 # batch大小，每处理128个样本进行一次梯度更新
-batch_size = 128
+batch_size = 25
 # 类别数
 num_classes = 40
 # 迭代次数
-epochs = 2
-
+epochs = 5
 
 def read_files(pathname):
     dir = glob.glob(pathname)
@@ -29,19 +32,22 @@ def read_files(pathname):
     y = []
     for filename in dir:
         img = Image.open(filename).convert('L')
-        #img = img.point(lambda x: [1, 0][x > 150], 'P')
         x.append(np.array(img))
-        y.append(filename[9:10])
+        y.append(filename[9:13])
     x = np.array(x)
     y = np.array(y)
     return x, y
 
+
 # 读取文件
+dir = glob.glob('dede/img/*.png')
+
 x_train, y_train = read_files('dede/img/*.png')
+
 x_test, y_test = read_files('dede/tst/*.png')
 
-x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)
-x_test = x_test.reshape(x_test.shape[0], 28, 28, 1)
+x_train = x_train.reshape(x_train.shape[0], 24, 68, 1)
+x_test = x_test.reshape(x_test.shape[0], 24, 68, 1)
 
 x_train = x_train.astype('float32')
 x_test = x_test.astype('float32')
@@ -49,9 +55,17 @@ x_test = x_test.astype('float32')
 x_train /= 255.0
 x_test /= 255.0
 
-# 转为one_hot 数据
-y_train = keras.utils.to_categorical(y_train, num_classes)
-y_test = keras.utils.to_categorical(y_test, num_classes)
+# y_train = keras.utils.to_categorical(y_train, num_classes)
+# y_test = keras.utils.to_categorical(y_test, num_classes)
+y_t=[]
+y_tr=[]
+for i in range(len(y_test)):
+    y_t.append(word2vec.text2vec(y_test[i]))
+for i in range(len(y_train)):
+    y_tr.append(word2vec.text2vec(y_train[i]))
+
+y_test=np.array(y_t)
+y_train=np.array(y_tr)
 
 # 构建模型
 model = Sequential()

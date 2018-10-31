@@ -14,14 +14,12 @@ import matplotlib.pyplot as plt
 
 np.set_printoptions(threshold=np.inf)
 
-
 # batch大小，每处理128个样本进行一次梯度更新
 batch_size = 128
 # 类别数
-num_classes = 40
+num_classes = 10
 # 迭代次数
 epochs = 2
-
 
 def read_files(pathname):
     dir = glob.glob(pathname)
@@ -29,15 +27,18 @@ def read_files(pathname):
     y = []
     for filename in dir:
         img = Image.open(filename).convert('L')
-        #img = img.point(lambda x: [1, 0][x > 150], 'P')
         x.append(np.array(img))
         y.append(filename[9:10])
     x = np.array(x)
     y = np.array(y)
     return x, y
 
+
 # 读取文件
+dir = glob.glob('dede/img/*.png')
+
 x_train, y_train = read_files('dede/img/*.png')
+
 x_test, y_test = read_files('dede/tst/*.png')
 
 x_train = x_train.reshape(x_train.shape[0], 28, 28, 1)
@@ -49,7 +50,6 @@ x_test = x_test.astype('float32')
 x_train /= 255.0
 x_test /= 255.0
 
-# 转为one_hot 数据
 y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
@@ -62,7 +62,7 @@ model = Sequential()
 # 第一层必须包含输入数据规模input_shape这一参数，后续层不必包含
 model.add(Conv2D(32, kernel_size=(3, 3),
                  activation='relu',
-                 input_shape=(24, 68, 1)))
+                 input_shape=(28, 28, 1)))
 # 再加一层卷积，64个卷积核
 model.add(Conv2D(64, (3, 3), activation='relu'))
 # 加最大值池化
