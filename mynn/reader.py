@@ -56,7 +56,9 @@ class ReadQueue:
 
 
 class TFReader():
-    def __init__(self, slice_label=[9, 13]):
+    def __init__(self, img_width=28, img_height=28, slice_label=[9, 13]):
+        self.img_width = img_width
+        self.img_height = img_height
         self.slice_label = slice_label
 
     def __get_files(self, pathname):
@@ -65,9 +67,9 @@ class TFReader():
         label_list = []
         in_filenames = glob.glob(pathname)
         if not in_filenames:
-            raise('no files!')
+            raise ValueError('no files!')
         for file in in_filenames:
-            img = Image.open(file)
+            img = Image.open(file).convert('L')
             image_list.append(img.tobytes())
             tmp_lab = file[self.slice_label[0]:self.slice_label[1]]
             label_list.append(str.encode(tmp_lab))
@@ -125,11 +127,12 @@ class TFReader():
         else:
             image = tf.decode_raw(features['image'], tf.uint8)
             label = features['label']
-        
-        image = tf.reshape(image, [24, 68, 3])
-        
-        label = tf.cast(features['label'], tf.string)
 
+        image = tf.cast(image, tf.float32)/255.0
+        image = tf.reshape(image, [self.img_height, self.img_width, 1])
+
+        label = tf.cast(features['label'], tf.int32)
+        label = tf.one_hot(label, 10)
         return image, label
 
     def input_data(self, filename, batch_size=128, num_epochs=None, capacity=4096, min_after_dequeue=1024, num_threads=10):
@@ -155,6 +158,8 @@ class TFReader():
             [img, label], batch_size=batch_size, capacity=capacity, min_after_dequeue=batch_size*5, num_threads=num_threads)
 
         return images_batch, labels_batch
+
+# 字符向量转换
 
 
 class WordVec():

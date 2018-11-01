@@ -14,7 +14,7 @@ $config = array(
     'use_boder' => TRUE,
     'font_file' => dirname(__FILE__) . '/data/fonts/' . mt_rand(1, 3) . '.ttf',
     'wordlist_file' => dirname(__FILE__) . '/data/words/words.txt',
-	'save_path'=>'E:\app\apptest\dede\tst/',
+	'save_path'=>'E:\app\tensorflow\apptest\dede\tst/',
 	'code_len'=>4,
     'filter_type' => 5);
 
