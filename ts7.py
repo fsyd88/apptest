@@ -117,7 +117,6 @@ with tf.Session() as sess:
     threads = tf.train.start_queue_runners(sess=sess, coord=coord)
     # print('开始训练!\n')
     try:
-
         img, label = sess.run([images_batch, labels_batch])
         Image.fromarray(img[0]).show()
         print(img,label)
